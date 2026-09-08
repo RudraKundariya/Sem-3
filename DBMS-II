@@ -1,0 +1,674 @@
+--  1  Write a T - SQL block to check whether the given number is a positive number or a negative number using a simple if statement--
+
+declare @abc int
+
+set @abc=-45;
+
+if(@abc>0)
+	print concat(@abc,' ','is positive')
+else
+	print concat(@abc,' ','is negative')
+
+-- 2  Write a T - SQL block to �ind the maximum number from the given two numbers--
+
+declare @a int,@b int
+
+set @a=1;
+set @b=10;
+
+if(@a>@b)
+	print concat(@a,' ','is maximum')
+else
+	print concat(@b,' ','is maximum')
+
+-- 3 Write a T - SQL block to �nd the maximum number from the given three numbers--
+
+declare @d int,@e int,@c int
+
+set @c=10;
+set @d=1;
+set @e=96;
+
+if(@c>@d and @c>@e)
+	print concat(@c,' ','is maximum')
+else if(@e>@d and @e>@c)
+	print concat(@e,' ','is maximum')
+else
+	print concat(@d,' ','is maximum')
+
+-- 4 Write a T - SQL block to print the �rst 25 natural numbers using a loop--
+
+declare @f int
+
+set @f=1;
+
+while(@f<=25)
+begin
+print(@f)
+set @f=@f+1;
+end
+
+--  5  Write a T - SQL Program to Print Odd Numbers From 1 to 100 --
+
+declare @g int
+
+set @g=1;
+
+while(@g<=100)
+		begin
+		print(@g)
+		set @g=@g+2;
+		end
+
+-- 6  Write a T - SQL block to �nd the sum of the �rst 100 natural nos--
+
+declare @h int,@sum int
+
+set @h=1;
+set @sum=0
+
+while(@h<=100)
+	begin
+	set @h=@h+1;
+	set @sum=@sum+@h;
+	end
+
+print(@sum)
+
+--  7  Write a T - SQL block to �nd whether the number is even or odd--
+
+declare @z int
+
+set @z=8;
+
+if(@z%2=0)
+	print concat(@z,' ','is Even')
+else
+	print concat(@z,' ','is Odd')
+
+--  8  Write a T - SQL block to print the �rst 25 Odd numbers using a loop in Reverse order --
+
+declare @y int
+
+set @y=49;
+
+while(@y<=1)
+		begin
+		print(@y)
+		set @y=@y-2;
+		end
+
+
+-- 9  Write a T-SQL block for given conditions: marks > 70 then Print '1st Class', marks>50 and marks<=70 then print '2nd Class',marks>=35 and marks<=50 then print '3rd Class', marks<35 then print 'Fail !!'--
+
+declare @marks int
+
+set @marks=40;
+
+if(@marks>70)
+	print('1st Class')
+else if(@marks>50 and @marks<=70)
+	print('2nd Class')
+else if(@marks>35 and @marks<=50)
+	print('3rd Class')
+else
+	print('Fail!!')
+
+--lab 1
+
+create database rudra_1092
+use rudra_1092
+
+create table bank_master
+(bank_id int primary key,
+bank_name varchar(30),
+bank_shortname char(5)
+)
+
+
+create table branch_master
+(branch_id int primary key,
+branch_name varchar(30),
+branch_ifsc int unique,
+bank_id int foreign key references bank_master(bank_id))
+
+
+create table employee_master
+(emp_no int primary key,
+branch_ifsc int foreign key references branch_master(branch_ifsc),
+emp_fullname varchar(30),
+emp_designation varchar(30),
+emp_manager_no int,
+emp_salary float,
+)
+
+
+create table customer_master
+(cust_id int primary key,
+cust_fullname varchar(30),
+cust_dob date,
+cust_address varchar(30),
+cust_mobile_no varchar(40),
+cust_emailid varchar(40),
+cust_city varchar(40),
+)
+
+
+create table account_master
+(acc_no int primary key,
+cus_id int foreign key references customer_master(cust_id),
+acc_type varchar(50) check(acc_type='sb'or acc_type='cr'),
+branch_ifsc int foreign key references branch_master(branch_ifsc)
+)
+
+create table transation_master
+(tran_id int primary key,
+tran_acno int,
+tran_date date,
+tran_type varchar(30) check(tran_type='ch' or tran_type='cq' or tran_type='ol' or tran_type='rg'),
+tran_amount_debit_card varchar(50) check(tran_amount_debit_card='d' or tran_amount_debit_card='c'),
+tran_amount float
+)
+
+
+ insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(1,'State Bank of India','SBI')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(2,'Punjab National Bank', 'PNB')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(3,'HDFC Bank', 'HDFC')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(4,'ICICI Bank', 'ICICI')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(5,'Axis Bank', 'AXIS')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(6,'Kotak Mahindra Bank', 'KOTAK')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(7,'Bank of Baroda', 'BOB')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(8,'Canara Bank', 'CANAR')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(9,'Union Bank of India', 'UBI')
+insert into bank_master
+ (bank_id,bank_name,bank_shortname)
+ values
+(10,'IDBI Bank', 'IDBI')
+
+
+
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(1, 'Main Branch', '0001', 1)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(2, 'East Branch', '0002', 2)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(3, 'West Branch', '0003', 3)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(4, 'North Branch', '0004', 4)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(5, 'South Branch', '0005', 5)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(6, 'City Branch', '0006', 6)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(7, 'Suburban Branch', '0007', 7)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(8, 'Rural Branch', '0008', 8)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(9, 'Downtown Branch', '0009', 9)
+insert into branch_master
+(branch_id,branch_name,branch_ifsc,bank_id) 
+values
+(10, 'Uptown Branch', '0010', 10)
+
+
+exec sp_help employee_master
+
+
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(1,'0001','Amit Sharma','Manager',null,75000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(2, '0002', 'Rohit Verma','Assistant Manager', 1, 60000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(3, '0003', 'Neha Gupta','Clerk', 2, 40000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(4, '0004', 'Vikram Patel','Cashier', 2, 45000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(5, '0005', 'Pooja Singh','Manager', NULL, 77000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(6, '0006', 'Sanjay Kumar','Assistant Manager', 5, 62000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(7, '0007', 'Kiran Das','Clerk', 6, 41000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(8, '0008', 'Ramesh Yadav','Cashier', 6, 46000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(9, '0009', 'Anjali Mehta','Assistant Manager', 5, 61000)
+insert into employee_master
+(emp_no,branch_ifsc,emp_fullname,emp_designation,emp_manager_no,emp_salary)
+values
+(10, '0010', 'Suresh Nair','Clerk', 9, 42000)
+
+
+
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(1, 'Amit Sharma', '1990-05-14', '123 MG Road, Delhi', '9876543210','amit.sharma@example.com', 'Delhi')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(2, 'Neha Gupta', '1995-08-22', '456 Sector 17, Chandigarh', '8765432109','neha.gupta@example.com', 'Chandigarh')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(3, 'Rahul Mehta', '1988-12-10', '789 Park Street, Mumbai', '7654321098','rahul.mehta@example.com', 'Mumbai')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(4, 'Pooja Singh', '1992-03-05', '159 Main Road, Jaipur', '6543210987','pooja.singh@example.com', 'Jaipur')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(5, 'Rakesh Verma', '1994-09-18', '753 Green Avenue, Pune', '5432109876','rakesh.verma@example.com', 'Pune')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(6, 'Sneha Patil', '1991-07-07', '951 New Colony, Bangalore', '4321098765','sneha.patil@example.com', 'Bangalore')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(7, 'Arun Nair', '1993-11-25', '852 High Street, Kochi', '3210987654','arun.nair@example.com', 'Kochi')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(8, 'Divya Iyer', '1996-04-30', '369 Station Road, Chennai', '2109876543','divya.iyer@example.com', 'Chennai')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(9, 'Manoj Tiwari', '1989-06-15', '753 Civil Lines, Lucknow', '1098765432','manoj.tiwari@example.com', 'Lucknow')
+insert into customer_master
+(cust_id,cust_fullname,cust_dob,cust_address,cust_mobile_no,cust_emailid,cust_city)
+values
+(10, 'Ankita Das', '1997-01-20', '258 Rajpath, Kolkata', '9988776655','ankita.das@example.com', 'Kolkata')
+
+
+
+
+
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(101, 1, 'SB', '0001')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(102, 2, 'CR', '0002')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(103, 3, 'SB', '0003')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(104, 4, 'CR', '0004')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(105, 5, 'SB', '0005')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(106, 6, 'SB', '0006')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(107, 7, 'CR', '0007')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(108, 8, 'SB', '0008')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(109, 9, 'CR', '0009')
+insert into  account_master
+(acc_no,cus_id,acc_type,branch_ifsc)
+values
+(110, 10, 'SB', '0010')
+
+select *from transation_master
+
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(1, 101, '2024-03-01', 'CH', 'D', 5000.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(2, 102, '2024-03-02', 'CQ', 'C', 10000.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(3, 103, '2024-03-03', 'OL', 'D', 7500.50)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(4, 104, '2024-03-04', 'RG', 'C', 15000.75)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(5, 105, '2024-03-05', 'CH', 'D', 2000.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(6, 106, '2024-03-06', 'CQ', 'C', 5000.25)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(7, 107, '2024-03-07', 'OL', 'D', 3000.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(8, 108, '2024-03-08', 'RG', 'C', 12000.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(9, 109, '2024-03-09', 'CH', 'D', 4500.00)
+insert into transation_master
+(tran_id,tran_acno,tran_date,tran_type,tran_amount_debit_card,tran_amount)
+values
+(10, 110, '2024-03-10', 'OL', 'C', 8000.50)
+--lab-2
+
+use rudra_1092
+
+--1--
+select emp_fullname,emp_no,branch_name from employee_master E join  branch_master B
+on B.branch_ifsc=E.branch_ifsc
+
+--2--
+select acc_no,cust_id,cust_fullname,branch_ifsc from customer_master C join  account_master A
+on C.cust_id=A.cus_id
+
+--3--
+select tran_id,tran_type,tran_acno,tran_amount from transation_master where tran_type='ol'
+
+--4--
+select acc_no,acc_type,tran_acno,tran_amount from transation_master T right outer join  account_master A
+on A.acc_no=T.tran_acno
+
+--5--
+select acc_no,acc_type,tran_acno,tran_amount from transation_master T left outer join  account_master A
+on A.acc_no=T.tran_acno
+
+
+--6--
+select cust_fullname,cust_mobile_no from customer_master C join account_master A 
+on C.cust_id=A.cus_id
+join transation_master T on  A.acc_no=T.tran_acno
+where T.tran_amount=(select max(tran_amount)
+from transation_master
+
+
+--7--
+select b.branch_name,b.branch_ifsc,a.bank_id from branch_master B join bank_master A
+on B.bank_id=A.bank_id
+join employee_master E on  B.branch_ifsc=E.branch_ifsc
+where E.emp_salary=(select min(emp_salary)
+from employee_master)
+
+--8--
+select count(emp_designation) from employee_master
+
+--9--
+select count(acc_type) from account_master where acc_type='sb'
+
+--10--
+select * from branch_master order by branch_name desc
+
+use rudra_1092
+
+
+										----A----
+----1----
+
+CREATE VIEW Bank_View AS
+SELECT Bank_ID, Bank_Name
+FROM Bank_Master;
+
+select * from Bank_View;
+
+----2----
+
+CREATE VIEW Customer_View AS
+SELECT Cust_FullName, Cust_MobileNo, Cust_Email
+FROM Customer_Master;
+
+select * from Customer_View;
+
+----3----
+
+CREATE VIEW Account_Details_View AS
+SELECT 
+    A.Acc_No,
+    A.Cus_ID,
+    B.Branch_Name,
+    K.Bank_Name
+FROM Account_Master A
+JOIN Branch_Master B ON A.Branch_IFSC = B.Branch_IFSC
+JOIN Bank_Master K ON B.Bank_ID = K.Bank_ID;
+
+select * from Account_Details_View
+
+----4----
+
+CREATE VIEW Cust_View AS
+SELECT Cust_FullName, Cust_City
+FROM Customer_Master
+WHERE Cust_City = 'Mumbai'
+WITH CHECK OPTION;
+
+select * from Cust_View
+
+----5----
+
+CREATE SEQUENCE Bank_ID_Seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE Branch_ID_Seq
+START WITH 100
+INCREMENT BY 1;
+
+CREATE SEQUENCE Emp_No_Seq
+START WITH 1000
+INCREMENT BY 1;
+
+----6----
+
+CREATE SYNONYM T_Master FOR Transaction_Master;
+
+
+----7----
+
+Create View Tr_View
+as
+select tran_id,tran_acno from transation_master
+where tran_type='ol'
+
+----8----
+
+Create View Whole_View AS
+Select * From customer_master
+Where cust_city = 'rajkot'
+with check option
+
+----9----
+
+Create Table Rudra
+(id int,kname varchar(30))
+create sequence R_sequence  start with 101
+							increment by 5
+							maxvalue 130
+							minvalue 100
+							cycle
+
+insert into Rudra values (next value for R_sequence,'World Hello')
+Select * From Rudra
+
+
+----10----
+
+
+Create Sequence ten_sequence start with 11
+							 increment by 1
+							 maxvalue 15
+							 minvalue 1 
+							 cycle
+
+insert into employee_master values(next value for ten_sequence,'0009', 'Anjali Mehta','Assistant Manager', 5, 61000)
+
+select next value for ten_sequence
+
+----11----
+
+Alter View Tr_View
+as
+select tran_id,tran_acno,Tran_Amount from transation_master
+where tran_type='ol'
+
+
+----12----
+
+Drop View Customer_View
+
+----13----
+
+Drop sequence ten_sequence
+
+insert into employee_master values(next value for ten_sequence,'0009', 'Anjali Mehta','Assistant Manager', 5, 61000)
+
+----1----
+
+CREATE FUNCTION si(@p int , @r int, @n int)
+returns int 
+as
+begin
+	return (@p*@r*@n/100)
+end
+SELECT dbo.si(10,10,10);
+
+----2----
+
+CREATE FUNCTION feettoinch(@f int)
+returns int 
+as
+begin
+	return @f*12;
+end
+
+SELECT dbo.feettoinch(2)
+
+----3----
+
+CREATE FUNCTION celtofahren(@c int)
+returns int
+as
+begin
+	return (@c*(9/5))+32
+end
+
+SELECT dbo.feettoinch(2)
+ 
+ ----4----
+
+Create FUNCTION FACT(@n int)
+returns int
+as
+begin
+	declare @ans int = 1;
+	while(@n!=0)
+	BEGIN
+		set @ans = @ans *@n;
+		set @n = @n-1;
+	END
+	return @ans;
+end
+
+SELECT dbo.FACT(5)
+
+----5----
+
+Create FUNCTION SUMOFODD (@s int , @e int)
+returns int
+as
+begin
+	declare @ans int = 0
+	while(@e>@s)
+	BEGIN
+			if(@s%2!=0)
+			begin 
+				set @ans = @ans + @s
+				set @s = @s + 2;
+			end
+			else
+			begin
+				set @s = @s + 1;
+			end
+	END
+	return @ans
+end
+
+SELECT dbo.SUMOFODD(2,10)
